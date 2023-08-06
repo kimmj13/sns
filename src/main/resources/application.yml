@@ -12,3 +12,9 @@ spring:
   sql:
     init:
       schema-locations: classpath*:db/h2/schema.sql
+
+jwt:
+  secret-key: fast_campus.sns-application-2022.secret-key
+#  30 days
+  token:
+    expired-time-ms: 2592000000

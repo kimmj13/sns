@@ -20,9 +20,9 @@ public class SnsApplicationException extends RuntimeException {
     public String getMessage() {
 
         if (message == null) {
-            return errorCode.getMessage();
+            return errorCode.getStatus().toString();
         }
 
-        return String.format("%s, %s", errorCode, getMessage(), message);
+        return String.format("%s, %s", errorCode, message);
     }
 }
