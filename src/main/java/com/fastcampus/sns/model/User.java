@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User implements UserDetails {
 
-    private Long id;
+    private Integer id;
     private String userName;
     private String password;
     private UserRole userRole;
