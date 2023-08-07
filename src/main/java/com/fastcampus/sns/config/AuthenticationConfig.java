@@ -1,10 +1,10 @@
 package com.fastcampus.sns.config;
 
-import com.fastcampus.sns.config.filter.JwtTokenizer;
+import com.fastcampus.sns.config.filter.JwtTokenFilter;
+import com.fastcampus.sns.exception.CustomAuthenticationEntryPoint;
 import com.fastcampus.sns.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,16 +27,15 @@ public class AuthenticationConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/*/users/join", "/api/*/users/login").permitAll()
+                .antMatchers("/api/*/users/join", "/api/*/users/login", "/h2/**").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                //TODO
-//                .exceptionHandling()
-//                .authenticationEntryPoint()
-                .addFilterBefore(new JwtTokenizer(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtTokenFilter(key, userService), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
     }
 
 }

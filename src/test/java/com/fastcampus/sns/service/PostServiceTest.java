@@ -54,7 +54,6 @@ public class PostServiceTest {
         when(postEntityRepository.save(any())).thenReturn(mock(PostEntity.class));
 
         SnsApplicationException e = Assertions.assertThrows(SnsApplicationException.class, () -> postService.create(title, body, userName));
-        Assertions.assertEquals(ErrorCode.USER_NOT_FOUND, userName);
-
+        Assertions.assertEquals(ErrorCode.USER_NOT_FOUND, e.getErrorCode());
     }
 }

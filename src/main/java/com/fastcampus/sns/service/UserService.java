@@ -24,8 +24,15 @@ public class UserService {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    @Value("${jwt.token.expired-time-ms}")
-    private Long expiredTimeMs;
+//    @Value("${jwt.token.expired-time-ms}")
+//    private Long expiredTimeMs;
+
+    @Value("${jwt.access-token-expiration-minutes}")
+    private int accessTokenExpirationMinutes;
+
+    public User loadUserByUserName(String userName) {
+        return userEntityRepository.findByUserName(userName).map(User::fromEntity).orElseThrow(() -> new SnsApplicationException(ErrorCode.USER_NOT_FOUND, String.format("%s not founded", userName)));
+    }
 
     // TODO : implement
     public User join(String userName, String password) {
@@ -52,7 +59,7 @@ public class UserService {
         }
 
         //토큰 생성
-        String token = JwtTokenUtils.generateToken(userName, secretKey, expiredTimeMs);
+        String token = JwtTokenUtils.generateToken(userName, secretKey, accessTokenExpirationMinutes);
 
 
         return token;

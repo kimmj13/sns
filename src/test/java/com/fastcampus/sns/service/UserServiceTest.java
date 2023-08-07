@@ -53,9 +53,7 @@ class UserServiceTest {
         UserEntity fixture = UserEntityFixture.get(userName, password);
 
         // mocking
-        when(userService.join(userName, password)).thenReturn(mock(User.class));
-
-
+        when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(fixture));
 
         SnsApplicationException e = Assertions.assertThrows(SnsApplicationException.class, () -> userService.join(userName, password));
         Assertions.assertEquals(ErrorCode.DUPLICATED_USER_NAME, e.getErrorCode());
