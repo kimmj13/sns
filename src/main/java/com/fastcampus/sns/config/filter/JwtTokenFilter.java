@@ -31,14 +31,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         //get header
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Bearer ")) {
-            log.error("Error occurs while getting header. header is null or invalid");
+            log.error("Error occurs while getting header. header is null or invalid", request.getRequestURL());
             filterChain.doFilter(request, response);
             return;
         }
 
         try {
             final String token = header.split(" ")[1].trim();
-            log.info("token : {}", token);
 
             // check token is valid
             if (JwtTokenUtils.isExpired(token, key)) {

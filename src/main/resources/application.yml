@@ -1,19 +1,37 @@
+#spring:
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2
+#  datasource:
+#    url: jdbc:h2:mem:test
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#  sql:
+#    init:
+#      schema-locations: classpath*:db/h2/schema.sql
+
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2     # (1) Context path 변경
   datasource:
-    url: jdbc:h2:mem:test     # (2) JDBC URL 변경
+    url: jdbc:mysql://localhost:3306/sns
+    username: root
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create  # (1) 스키마 자동 생성
+      ddl-auto: create-drop
     show-sql: true
-  sql:
-    init:
-      schema-locations: classpath*:db/h2/schema.sql
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    open-in-view: false
+
 
 jwt:
   secret-key: "fast_campus.sns-application-2022.secret-keydkjfaldjflkajeljfidsjflkajsdkfjaijwoeij"
 #  30 days
   access-token-expiration-minutes: 30
+
